@@ -1,9 +1,12 @@
 <template>
-  <div>
-  <ul v-for="branch in tree" class="list">
-    <Branch :branch="branch" :key="branch.id" />
-  </ul>
-</div>
+      <ul v-for="(branch, index) in tree" :key="index" class="list">
+        <Branch
+            :url = branch.url
+            :title = branch.title
+            :count = branch.count
+            :children = branch.children
+        />
+      </ul>
 </template>
 
 <script lang="ts">
@@ -33,12 +36,12 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .list {
+  margin-right: auto;
   display: flex;
   flex-direction: column;
 }
  .parent{
   display: flex;
-  align-items: center;
   gap: 8px;
   text-align: left;
   margin: 10px 0px;

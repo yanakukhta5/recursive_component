@@ -10,10 +10,11 @@ import Tree from './components/Tree.vue'
 
 <style scoped>
  .app {
-  min-height: 100vh;
+  width: 450px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
+  margin: 8vh auto;
+  flex-direction: column;
   color: black;
   font-family: Arial, Helvetica, sans-serif;
  }
