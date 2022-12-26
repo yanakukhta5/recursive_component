@@ -23,6 +23,9 @@ import Tree from './Tree.vue'
     },
     listShow(){
       (this.$refs.list as HTMLUListElement).classList.toggle('child-list_show')
+    },
+    countCheck(event){
+      this.$emit('countIncrease', event,target)
     }
   }
 })
@@ -31,6 +34,7 @@ import Tree from './Tree.vue'
 <template>
   <li class="parent parent_close">
     <div class="content">
+      <input type="checkbox" @change="countCheck" class="count-check" name="count" id="count">
       <button v-if="children.length" ref="button" @click="buttonRotate(), listShow()" class="button button_close" />
       <p ><a class="link" :href="'https://www.klerk.ru' + url">{{ title }}</a>(count: {{ count }}, totalCount: {{ count }})</p>
     </div>
@@ -47,6 +51,9 @@ import Tree from './Tree.vue'
 </template>
 
 <style scoped lang="scss">
+.count-check{
+  margin-right: 10px;
+}
 .content{
   display: flex;
 }
