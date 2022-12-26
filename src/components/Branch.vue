@@ -1,11 +1,10 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue'
 import { IBranch } from '../types/branch.js'
-import Tree from './Tree.vue'
 
  export default defineComponent({
   name: 'rec',
- props: ['url', 'title', 'count', 'children'],
+ props: ['url', 'title', 'count', 'children', 'currentObj'],
  data(){
   return {
    tree: [] as PropType<IBranch[]>,
@@ -25,8 +24,14 @@ import Tree from './Tree.vue'
       (this.$refs.list as HTMLUListElement).classList.toggle('child-list_show')
     },
     countCheck(event){
-      this.$emit('countIncrease', event,target)
+      this.$emit('countIncrease', this.currentObj, event.target.checked)
+    },
+    getTotalCount(){
+      console.log(this.currentObj)
     }
+  },
+  mounted(){
+    this.getTotalCount() 
   }
 })
 </script>
@@ -36,7 +41,7 @@ import Tree from './Tree.vue'
     <div class="content">
       <input type="checkbox" @change="countCheck" class="count-check" name="count" id="count">
       <button v-if="children.length" ref="button" @click="buttonRotate(), listShow()" class="button button_close" />
-      <p ><a class="link" :href="'https://www.klerk.ru' + url">{{ title }}</a>(count: {{ count }}, totalCount: {{ count }})</p>
+      <p ><a class="link" :href="'https://www.klerk.ru' + url">{{ title }}</a>(count: {{ count }}<span v-if="currentObj">, totalCount: {{ count }}</span>)</p>
     </div>
     <ul v-if="title" class="child-list list" ref="list">
       <div class="div" v-if="children.length">
