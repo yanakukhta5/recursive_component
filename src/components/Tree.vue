@@ -1,12 +1,18 @@
 <template>
-      <ul v-for="(branch, index) in tree" :key="index" class="list">
-        <Branch
-            :url = branch.url
-            :title = branch.title
-            :count = branch.count
-            :children = branch.children
-        />
-      </ul>
+  <div class="tree-title">
+    <button ref="button" @click="buttonRotate(), treeSwap()" class="button button_open"></button>
+    <a class="link">Наши отрасли</a>
+  </div>
+  <div ref="tree" class="tree">
+  <ul v-for="(branch, index) in tree" :key="index" class="list">
+    <Branch
+        :url = branch.url
+        :title = branch.title
+        :count = branch.count
+        :children = branch.children
+    />
+  </ul>
+</div>
 </template>
 
 <script lang="ts">
@@ -17,7 +23,8 @@ export default defineComponent({
  components: { Branch },
  data(){
   return {
-   tree: Array as PropType<IBranch[]>
+   tree: Array as PropType<IBranch[]>,
+   countAll: 0
   }
  },
   async mounted(){
@@ -30,11 +37,32 @@ export default defineComponent({
    const result = await response.json()
    this.tree = result
    console.log(this.tree)
+  },
+  methods: {
+    buttonRotate(){
+     (this.$refs.button as HTMLButtonElement).classList.toggle('button_close');
+     (this.$refs.button as HTMLButtonElement).classList.toggle('button_open')
+    },
+    treeSwap(){
+      (this.$refs.tree as HTMLUListElement).classList.toggle('tree_active')
+    },
+    countAllIncrease(currentCount: number){
+      this.countAll += currentCount
+    }
   }
 })
 </script>
 
 <style scoped lang="scss">
+.tree{
+  &-title {
+  display: flex;
+ }
+ &_active {
+  display: none;
+ }
+}
+ 
 .list {
   margin-right: auto;
   display: flex;

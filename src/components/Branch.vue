@@ -31,8 +31,8 @@ import Tree from './Tree.vue'
 <template>
   <li class="parent parent_close">
     <div class="content">
-      <button v-if="children.length" ref="button" @click="buttonRotate(), listShow()" class="button button_close"></button>
-      <a class="link" :href="'https://www.klerk.ru' + url">{{ title }} (count: {{ count }}, totalCount: {{ count }})</a>
+      <button v-if="children.length" ref="button" @click="buttonRotate(), listShow()" class="button button_close" />
+      <p ><a class="link" :href="'https://www.klerk.ru' + url">{{ title }}</a>(count: {{ count }}, totalCount: {{ count }})</p>
     </div>
     <ul v-if="title" class="child-list list" ref="list">
       <div class="div" v-if="children.length">
@@ -63,31 +63,4 @@ import Tree from './Tree.vue'
     margin: 10px 0 0 30px;
   }
 }
- .button {
-  width: 12px;
-  height: 12px;
-  outline: none;
-  padding: 0;
-  background-color: transparent;
-  border: 0px;
-  &:hover {
-   cursor: pointer;
-  }
-  &:before {
-   content: '△';
-   position: relative;
-   top: 3px;
-   left: 2px;
-  }
-  &_open {
-    transform: rotate(180deg);
-    &:before{
-      top: -3px;
-      left: 6px;
-    }
-  }
-  &_close {
-    transform: rotate(90deg);
-  }
- }
 </style>
