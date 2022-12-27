@@ -8,14 +8,11 @@
     <a class="link">Наши отрасли (checkedCount: {{ checkedCount }})</a>
   </div>
   <div ref="tree" class="tree">
-    <ul v-for="(branch, index) in tree" :key="index" class="list">
+    <ul v-for="branch in tree" class="list">
       <Branch
         @countIncrease="countIncreaser"
-        :url="branch.url"
-        :title="branch.title"
-        :count="branch.count"
-        :children="branch.children"
-        :currentObj="tree[index]"
+        :currentObj="branch"
+        :key="branch.id"
       />
     </ul>
   </div>
@@ -39,10 +36,14 @@ export default defineComponent({
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
+
     const result = await response.json();
     this.tree = result;
   },
   methods: {
+    handleClick() {
+      //this.opened = !this.opened
+    },
     buttonRotate() {
       (this.$refs.button as HTMLButtonElement).classList.toggle("button_close");
       (this.$refs.button as HTMLButtonElement).classList.toggle("button_open");
@@ -50,16 +51,17 @@ export default defineComponent({
     treeSwap() {
       (this.$refs.tree as HTMLUListElement).classList.toggle("tree_active");
     },
-    countIncreaser(currentTree: Array, isChecked: boolean) {
-      if(isChecked) this.checkedCount += currentTree.count;
-      else this.checkedCount -= currentTree.count;
+    countIncreaser(currentTree: IBranch, isChecked: boolean) {
+      currentTree.checked = isChecked;
+
+      this.checkedCount += isChecked ? currentTree.count : -currentTree.count;
+
       if (currentTree.children) {
-        for (let i = 0; i < currentTree.children.length; i++) {
-          try {
-            this.countIncreaser(currentTree.children[i], isChecked);
-          } catch (err) {
-            continue;
-          }
+        for (const item of currentTree.children) {
+          if (item.checked === isChecked) continue;
+
+          item.checked = isChecked;
+          this.countIncreaser(item, isChecked);
         }
       }
     },
