@@ -2,8 +2,8 @@
   <div class="tree-title">
     <button
       ref="button"
-      @click="buttonRotate(), treeSwap()"
-      class="button button_open"
+      @click="treeSwap()"
+      :class="(isOpen ? 'button_open' : 'button_close') + ' button'"
     ></button>
     <a class="link">Наши отрасли (checkedCount: {{ checkedCount }})</a>
   </div>
@@ -28,6 +28,7 @@ export default defineComponent({
     return {
       tree: Array as PropType<IBranch[]>,
       checkedCount: 0,
+      isOpen: true
     };
   },
   async mounted() {
@@ -41,14 +42,12 @@ export default defineComponent({
     this.tree = result;
   },
   methods: {
-    handleClick() {
-      //this.opened = !this.opened
-    },
     buttonRotate() {
       (this.$refs.button as HTMLButtonElement).classList.toggle("button_close");
       (this.$refs.button as HTMLButtonElement).classList.toggle("button_open");
     },
     treeSwap() {
+      this.isOpen = !this.isOpen;
       (this.$refs.tree as HTMLUListElement).classList.toggle("tree_active");
     },
     countIncreaser(currentTree: IBranch, isChecked: boolean) {
@@ -59,7 +58,6 @@ export default defineComponent({
       if (currentTree.children) {
         for (const item of currentTree.children) {
           if (item.checked === isChecked) continue;
-
           item.checked = isChecked;
           this.countIncreaser(item, isChecked);
         }
