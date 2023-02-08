@@ -1,7 +1,7 @@
 export type IBranch = {
   id: number;
-  title: String;
-  url: String;
+  title: string;
+  url: string;
   count: number;
   children?: IBranch[];
   checked?: boolean;
