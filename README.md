@@ -1,7 +1,5 @@
 # Vue 3 + TypeScript + Vite
 
-## Для запуска локального сервера и vue пропишите в терминале команду: yarn start
-
 ## json server
 ## scss
 ## yarn
